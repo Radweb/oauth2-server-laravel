@@ -4,18 +4,9 @@ version: 2.1
   steps:
     - checkout
 
-    - restore_cache:
-        keys:
-          - composer-dependencies-{{ checksum "composer.lock" }}
-
     - run:
         name: Install Composer Dependencies
         command: composer install --no-interaction --prefer-source --no-progress --no-suggest
-
-    - save_cache:
-        key: composer-dependencies-{{ checksum "composer.lock" }}
-        paths:
-          - vendor
 
     - run:
         name: PHPUnit
