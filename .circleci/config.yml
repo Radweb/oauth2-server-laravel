@@ -30,9 +30,9 @@ jobs:
 
     docker:
       - image: radweb/ci:7.1
-      auth:
-        username: $DOCKER_USER
-        password: $DOCKER_PASS
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
 
     steps:
 
@@ -43,9 +43,9 @@ jobs:
 
     docker:
       - image: radweb/ci:7.2
-      auth:
-        username: $DOCKER_USER
-        password: $DOCKER_PASS
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASS
 
     steps:
 
