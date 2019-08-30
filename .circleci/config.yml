@@ -52,5 +52,6 @@ workflows:
   version: 2
 
   test:
-    - test-php-71
-    - test-php-72
+    jobs:
+      - test-php-71
+      - test-php-72
