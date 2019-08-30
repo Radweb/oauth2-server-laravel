@@ -1,0 +1,59 @@
+version: 2.1
+
+<<: &BUILD_STEPS
+  - checkout
+
+  - restore_cache:
+      keys:
+        - composer-dependencies-{{ checksum "composer.lock" }}
+
+  - run:
+      name: Install Composer Dependencies
+      command: composer install --no-interaction --prefer-source --no-progress --no-suggest
+
+  - save_cache:
+      key: composer-dependencies-{{ checksum "composer.lock" }}
+      paths:
+        - vendor
+
+  - run:
+      name: PHPUnit
+      command: ./vendor/bin/phpunit
+
+  - run:
+      name: PHPSpec
+      command: ./vendor/bin/phpspec run
+
+jobs:
+  test-php-7.1:
+    working_directory: /home/circleci/oauth2-server-laravel
+
+    docker:
+      - image: radweb/ci:7.1
+      auth:
+        username: $DOCKER_USER
+        password: $DOCKER_PASS
+
+    steps:
+
+      <<: *BUILD_STEPS
+
+  test-php-7.2:
+    working_directory: /home/circleci/oauth2-server-laravel
+
+    docker:
+      - image: radweb/ci:7.2
+      auth:
+        username: $DOCKER_USER
+        password: $DOCKER_PASS
+
+    steps:
+
+      <<: *BUILD_STEPS
+
+workflows:
+  version: 2
+
+  test:
+    - test-php-7.1
+    - test-php-7.2
